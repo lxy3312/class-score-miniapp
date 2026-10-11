@@ -1,0 +1,96 @@
+.stats-page { padding-top: 22rpx; }
+.load-state { margin-bottom: 16rpx; padding: 16rpx 20rpx; border-radius: 14rpx; color: #5f6e84; background: #f2f5fa; font-size: 22rpx; line-height: 1.45; }
+.load-error { color: #b94f58; background: #fff0f1; }
+
+.stats-hero { position: relative; overflow: hidden; padding: 25rpx 26rpx 22rpx; color: #fff; background: linear-gradient(138deg, #2448b9, #4057cd 62%, #6b58d4); }
+.stats-hero::after { content: ''; position: absolute; right: -88rpx; top: -105rpx; width: 245rpx; height: 245rpx; border: 35rpx solid rgba(255,255,255,.07); border-radius: 999rpx; }
+.stats-title-row { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; }
+.stats-hero .section-title { color: #fff; font-size: 29rpx; }
+.stats-period { margin-top: 4rpx; color: rgba(255,255,255,.61); font-size: 18rpx; }
+.stats-logo { width: 55rpx; height: 55rpx; border-radius: 17rpx; box-shadow: 0 7rpx 16rpx rgba(17,33,100,.24); }
+.stats-main-number { position: relative; z-index: 1; margin-top: 25rpx; font-size: 60rpx; font-weight: 800; font-variant-numeric: tabular-nums; }
+.stats-main-number text { margin-left: 7rpx; font-size: 22rpx; font-weight: 500; opacity: .72; }
+.stats-mini-grid { position: relative; z-index: 1; display: flex; margin-top: 21rpx; padding-top: 17rpx; border-top: 1rpx solid rgba(255,255,255,.16); }
+.stats-mini-grid > view { flex: 1; border-right: 1rpx solid rgba(255,255,255,.14); text-align: center; }
+.stats-mini-grid > view:last-child { border-right: 0; }
+.mini-value { display: block; color: #fff; font-size: 27rpx; font-weight: 750; font-variant-numeric: tabular-nums; }
+.mini-value.positive { color: #8ce8bd; }
+.mini-value.negative { color: #ffb2b6; }
+.mini-label { display: block; margin-top: 4rpx; color: rgba(255,255,255,.57); font-size: 18rpx; }
+
+.period-control { display: flex; align-items: stretch; gap: 13rpx; margin-top: 19rpx; }
+.period-tabs { display: flex; flex: 1; padding: 7rpx; }
+.period-tab { flex: 1; padding: 14rpx 0; border-radius: 12rpx; color: #8b96a8; text-align: center; font-size: 22rpx; }
+.period-tab.active { color: #3157d5; background: #eef1ff; font-weight: 700; }
+.week-picker { display: flex; width: 250rpx; }
+.week-value { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 68rpx; padding: 0 16rpx; border: 1rpx solid #e4e9f1; border-radius: 16rpx; color: #647187; background: #fff; font-size: 18rpx; }
+.week-value text { margin-left: 7rpx; color: #9ca6b5; font-size: 23rpx; }
+
+.section-heading, .ranking-head { display: flex; align-items: flex-end; justify-content: space-between; margin: 29rpx 2rpx 14rpx; }
+.section-title { font-size: 30rpx; }
+.section-subtitle { margin-top: 5rpx; color: #9ba5b5; font-size: 18rpx; }
+.category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 13rpx; }
+.category-card { position: relative; overflow: hidden; min-height: 140rpx; padding: 18rpx 18rpx 16rpx; }
+.category-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5rpx; background: #3157d5; }
+.category-sports::before { background: #47aa8d; }
+.category-labor::before { background: #e5a044; }
+.category-discipline::before { background: #806fd5; }
+.category-top { display: flex; align-items: center; justify-content: space-between; }
+.category-name { color: #536176; font-size: 21rpx; font-weight: 650; }
+.category-count { color: #abb3bf; font-size: 16rpx; }
+.category-score { margin-top: 11rpx; font-size: 34rpx; font-weight: 780; font-variant-numeric: tabular-nums; }
+.category-detail { display: flex; gap: 14rpx; margin-top: 7rpx; font-size: 17rpx; font-variant-numeric: tabular-nums; }
+.positive { color: #18a06f; }
+.negative { color: #e36369; }
+
+.ranking-head { align-items: center; }
+.view-switch { display: flex; padding: 6rpx; border-radius: 14rpx; background: #e9edf5; }
+.view-option { min-width: 82rpx; padding: 9rpx 12rpx; border-radius: 10rpx; color: #7e899a; text-align: center; font-size: 19rpx; }
+.view-option.active { color: #3157d5; background: #fff; box-shadow: 0 4rpx 12rpx rgba(45,64,106,.08); font-weight: 700; }
+.dimension-scroll { width: calc(100% + 56rpx); margin: 0 -28rpx 14rpx; white-space: nowrap; }
+.dimension-tabs { display: inline-flex; gap: 9rpx; padding: 0 28rpx; }
+.dimension-tab { min-width: 108rpx; padding: 12rpx 19rpx; border: 1rpx solid #e4e8f1; border-radius: 999rpx; color: #7c8798; background: #fff; text-align: center; font-size: 20rpx; }
+.dimension-tab.active { border-color: #3157d5; color: #fff; background: #3157d5; font-weight: 650; }
+
+.stats-table { overflow: hidden; }
+.table-head, .table-row { display: grid; grid-template-columns: 64rpx minmax(190rpx, 1fr) 74rpx 74rpx 82rpx; align-items: center; }
+.table-head { min-height: 59rpx; padding: 0 14rpx; color: #a0a9b8; background: #f8f9fc; font-size: 17rpx; }
+.table-head text:nth-child(n+3) { text-align: right; }
+.table-row { min-height: 88rpx; padding: 0 14rpx; border-top: 1rpx solid #f0f2f6; }
+.table-rank { color: #8995a8; font-size: 20rpx; font-weight: 750; text-align: center; font-variant-numeric: tabular-nums; }
+.table-student { display: flex; align-items: center; min-width: 0; }
+.table-avatar { display: flex; align-items: center; justify-content: center; width: 46rpx; height: 46rpx; flex: 0 0 46rpx; border-radius: 15rpx; color: #fff; font-size: 19rpx; font-weight: 700; }
+.table-info { min-width: 0; margin-left: 9rpx; }
+.table-name-line { display: flex; align-items: center; min-width: 0; }
+.table-name { overflow: hidden; color: #253044; font-size: 21rpx; font-weight: 680; text-overflow: ellipsis; white-space: nowrap; }
+.table-badge { flex: 0 0 auto; max-width: 100rpx; overflow: hidden; margin-left: 5rpx; padding: 2rpx 5rpx; border-radius: 999rpx; color: #91681d; background: #fff7e6; font-size: 13rpx; text-overflow: ellipsis; white-space: nowrap; }
+.table-group { display: block; margin-top: 2rpx; color: #a0a9b8; font-size: 15rpx; }
+.table-positive, .table-negative, .table-score { text-align: right; font-size: 19rpx; font-variant-numeric: tabular-nums; }
+.table-positive { color: #18a06f; }
+.table-negative { color: #e36369; }
+.table-score { font-size: 22rpx; font-weight: 760; }
+.empty { display: flex; align-items: center; justify-content: center; min-height: 170rpx; color: #8b96a8; font-size: 22rpx; }
+.export-btn { height: 70rpx; margin-top: 18rpx; border: 1rpx solid #dce4ff; border-radius: 15rpx; color: #3157d5; background: #f2f4ff; font-size: 21rpx; line-height: 70rpx; }
+/* Fixed-height flex controls keep labels centered on every device. */
+.period-tab, .dimension-tab, .view-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 1.2;
+  text-align: center;
+}
+.period-tab { min-height: 56rpx; }
+.dimension-tab { min-height: 50rpx; }
+.view-option { min-height: 44rpx; }
+.export-btn { display: flex; align-items: center; justify-content: center; padding-top: 0; padding-bottom: 0; line-height: 1.2; text-align: center; }
+
+/* Prevent long period labels from pushing the controls out of alignment. */
+.stats-page { overflow-x: hidden; }
+.period-control, .period-tabs, .week-value { min-width: 0; }
+.week-picker { flex: 0 0 250rpx; min-width: 0; }
+.week-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.week-arrow { flex: 0 0 auto; margin-left: 8rpx; }
+.stats-title-row { min-width: 0; }
+.stats-title-row > view { min-width: 0; }

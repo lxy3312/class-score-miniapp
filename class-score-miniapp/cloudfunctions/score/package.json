@@ -1,0 +1,9 @@
+{
+  "name": "class-score-score-function",
+  "version": "1.0.0",
+  "description": "班级积分站唯一云端写入口与管理员鉴权",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

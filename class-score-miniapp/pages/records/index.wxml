@@ -1,0 +1,62 @@
+<view class="page records-page">
+  <view wx:if="{{loading}}" class="load-state">正在加载记分流水…</view>
+  <view wx:if="{{errorMessage}}" class="load-state load-error">{{errorMessage}}</view>
+  <view wx:if="{{!isAdmin && !loading}}" class="viewer-note">当前为浏览模式，仅管理员可以记分或撤销记录</view>
+  <view class="page-topline"><view><view class="section-title">记分流水</view></view><view class="header-count"><text>{{events.length}}</text><text>笔</text></view></view>
+
+  <view class="filter-tabs card">
+    <view class="filter-tab {{filter === 'all' ? 'active' : ''}}" data-filter="all" bindtap="setFilter">全部</view>
+    <view class="filter-tab {{filter === 'add' ? 'active add' : ''}}" data-filter="add" bindtap="setFilter">↑ 加分</view>
+    <view class="filter-tab {{filter === 'deduct' ? 'active deduct' : ''}}" data-filter="deduct" bindtap="setFilter">↓ 扣分</view>
+  </view>
+
+  <view class="timeline" wx:if="{{events.length}}">
+    <block wx:for="{{events}}" wx:key="id">
+      <view wx:if="{{item.dateLabel}}" class="date-label"><view class="date-line"></view><text>{{item.dateLabel}}</text><view class="date-line"></view></view>
+      <view class="event-card card {{item.voided ? 'voided' : ''}}">
+        <view class="event-avatar" style="background: {{item.memberColor}}">{{item.initials}}</view>
+        <view class="event-content"><view class="event-title"><text class="event-member">{{item.memberName}}</text><text class="event-reason">{{item.reason}}</text></view><view class="event-meta">{{item.categoryLabel}} · {{item.timeLabel}} · {{item.operatorName}}</view><view wx:if="{{item.note}}" class="event-note">“{{item.note}}”</view></view>
+        <view class="event-right"><view class="event-delta {{item.deltaClass}}">{{item.deltaText}}</view><view wx:if="{{isAdmin && !item.voided}}" class="event-actions"><text class="event-action edit" data-id="{{item.id}}" bindtap="openEdit">编辑</text><text class="event-action" data-id="{{item.id}}" bindtap="voidEvent">撤销</text><text class="event-action delete" data-id="{{item.id}}" bindtap="deleteEvent">删除</text></view><view wx:if="{{item.voided}}" class="void-label">已撤销</view></view>
+      </view>
+    </block>
+  </view>
+  <view wx:if="{{!events.length && !loading}}" class="empty card"><view class="empty-emoji">◌</view><view>还没有{{filterLabel}}</view></view>
+
+  <view wx:if="{{isAdmin}}" class="fab" bindtap="openComposer"><text class="fab-plus">＋</text><text>记一笔</text></view>
+
+  <view wx:if="{{isAdmin && showComposer}}" class="sheet-mask" catchtap="closeComposer">
+    <view class="composer" catchtap="stopBubble">
+      <view class="sheet-handle"></view>
+      <view class="composer-head"><view class="section-title">记一笔</view><view class="close-btn" bindtap="closeComposer">×</view></view>
+      <view class="form-label">选择学生</view>
+      <picker mode="selector" range="{{members}}" range-key="name" value="{{memberIndex}}" bindchange="pickMember"><view class="picker-field"><view class="picker-avatar" style="background: {{members[memberIndex].color}}">{{memberInitial}}</view><text class="picker-label">{{members[memberIndex].name}}</text><text class="picker-arrow">⌄</text></view></picker>
+      <view class="mode-switch"><view class="mode-btn {{mode === 'add' ? 'selected-add' : ''}}" data-mode="add" bindtap="switchMode">↑ 加分</view><view class="mode-btn {{mode === 'deduct' ? 'selected-deduct' : ''}}" data-mode="deduct" bindtap="switchMode">↓ 扣分</view></view>
+      <view class="form-label points-label">分值</view>
+      <view class="quick-row"><view wx:for="{{mode === 'add' ? quickAdd : quickDeduct}}" wx:key="*this" class="quick-chip {{selectedPoints === item && !customPoints ? 'chosen' : ''}} {{mode === 'add' ? 'chip-add' : 'chip-deduct'}}" data-value="{{item}}" bindtap="chooseQuick">{{mode === 'add' ? '+' : '-'}}{{item}}</view><input class="custom-points" type="number" placeholder="自定义" value="{{customPoints}}" bindinput="onCustomPoints" /></view>
+      <view class="form-label">记分规则</view>
+      <picker mode="selector" range="{{rules}}" range-key="label" value="{{ruleIndex}}" bindchange="pickRule"><view class="picker-simple"><text class="picker-icon">{{rules[ruleIndex].icon}}</text><text class="picker-label">{{rules[ruleIndex].label}}</text><text class="picker-arrow">⌄</text></view></picker>
+      <view class="form-label">原因 <text class="required">*</text></view>
+      <input class="text-field" maxlength="40" placeholder="例如：主动回答问题" value="{{reason}}" bindinput="onReason" />
+      <view class="reason-chips"><view wx:for="{{rules}}" wx:key="id" class="reason-chip" data-value="{{item.label}}" bindtap="onReason">{{item.label}}</view></view>
+      <view class="form-label">备注 <text class="muted tiny">（选填）</text></view>
+      <textarea class="note-field" maxlength="80" placeholder="备注（选填）" value="{{note}}" bindinput="onNote"></textarea>
+      <button class="btn-primary submit-btn" loading="{{submitting}}" disabled="{{submitting}}" bindtap="submitScore">确认提交</button>
+      <view class="safe-bottom-space"></view>
+    </view>
+  </view>
+
+  <view wx:if="{{isAdmin && showEditForm}}" class="sheet-mask" catchtap="closeEdit">
+    <view class="composer edit-composer" catchtap="stopBubble">
+      <view class="sheet-handle"></view>
+      <view class="composer-head"><view class="section-title">编辑记录</view><view class="close-btn" bindtap="closeEdit">×</view></view>
+      <view class="form-label">分值（可正可负）</view>
+      <input class="text-field" type="number" data-field="editPoints" value="{{editPoints}}" bindinput="onEditInput" />
+      <view class="form-label">原因</view>
+      <input class="text-field" maxlength="40" data-field="editReason" value="{{editReason}}" bindinput="onEditInput" />
+      <view class="form-label">备注 <text class="muted tiny">（选填）</text></view>
+      <textarea class="note-field" maxlength="80" data-field="editNote" value="{{editNote}}" bindinput="onEditInput"></textarea>
+      <button class="btn-primary submit-btn" loading="{{savingEdit}}" disabled="{{savingEdit}}" bindtap="saveEdit">保存修改</button>
+      <view class="safe-bottom-space"></view>
+    </view>
+  </view>
+</view>

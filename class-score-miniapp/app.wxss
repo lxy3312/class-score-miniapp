@@ -1,0 +1,77 @@
+page {
+  background: linear-gradient(180deg, #f7f9ff 0%, #f5f7fb 44%, #f3f6fb 100%);
+  color: #17202a;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+view, text, scroll-view, input, textarea, button, picker {
+  box-sizing: border-box;
+}
+
+button::after { border: 0; }
+
+input, textarea {
+  background: #fff;
+  caret-color: #3157d5;
+}
+
+input::placeholder, textarea::placeholder { color: #aab4c2; }
+
+.page {
+  min-height: 100vh;
+  padding: 28rpx 28rpx 150rpx;
+}
+
+.muted { color: #8b96a8; }
+.tiny { font-size: 22rpx; }
+.section-title { font-size: 34rpx; font-weight: 700; color: #17202a; }
+.card {
+  background: #fff;
+  border-radius: 22rpx;
+  border: 1rpx solid rgba(228, 233, 243, .86);
+  box-shadow: 0 12rpx 30rpx rgba(45, 64, 106, .065);
+}
+.btn-primary {
+  background: linear-gradient(135deg, #3157d5 0%, #5d57d5 100%);
+  color: #fff;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  box-shadow: 0 8rpx 18rpx rgba(49, 87, 213, .16);
+}
+.btn-ghost {
+  background: #f1f4ff;
+  color: #3157d5;
+  border-radius: 14rpx;
+  font-size: 26rpx;
+  border: 1rpx solid #dfe6ff;
+}
+.divider { height: 1rpx; background: #edf0f5; }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+.section-title { letter-spacing: .2rpx; }
+
+button[disabled] {
+  opacity: .58;
+}
+
+/* Keep text optically centered across iOS, Android and the simulator. */
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.btn-primary,
+.btn-ghost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}

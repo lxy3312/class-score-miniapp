@@ -1,0 +1,32 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/student/index",
+    "pages/records/index",
+    "pages/stats/index",
+    "pages/settings/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "班级积分站",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f5f7fb",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "color": "#8c97a8",
+    "selectedColor": "#3157d5",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/home/index", "text": "班级榜" },
+      { "pagePath": "pages/records/index", "text": "记分" },
+      { "pagePath": "pages/stats/index", "text": "统计" },
+      { "pagePath": "pages/settings/index", "text": "设置" }
+    ]
+  },
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "class-score-whoami-function",
+  "version": "1.0.0",
+  "description": "返回当前用户 openid 与班级管理员身份",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

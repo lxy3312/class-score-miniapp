@@ -1,0 +1,66 @@
+<view class="page settings-page">
+  <view wx:if="{{loading}}" class="load-state">正在加载设置…</view>
+  <view wx:if="{{errorMessage}}" class="load-state load-error">{{errorMessage}}</view>
+  <view wx:if="{{!isAdmin && !loading}}" class="viewer-banner"><text>当前为浏览模式</text><text>管理员权限由云端身份控制，当前页面不可编辑</text></view>
+
+  <view class="page-topline"><view><view class="section-title">班级设置</view></view><view class="settings-top-right"><image class="settings-logo" src="../../assets/logo-mark.png" mode="aspectFit" lazy-load="true" /><view class="settings-badge">{{isAdmin ? '管理员' : '浏览者'}}</view></view></view>
+
+  <view class="settings-card card">
+    <view class="card-title-row"><view><view class="card-title">班级资料</view></view><view class="edit-mark">{{isAdmin ? '✎' : '只读'}}</view></view>
+    <view class="form-label">学校名称</view><input class="setting-input {{!isAdmin ? 'readonly' : ''}}" disabled="{{!isAdmin}}" data-field="schoolName" value="{{draft.schoolName}}" bindinput="onDraftInput" />
+    <view class="two-col"><view><view class="form-label">年级</view><input class="setting-input {{!isAdmin ? 'readonly' : ''}}" disabled="{{!isAdmin}}" data-field="grade" value="{{draft.grade}}" bindinput="onDraftInput" /></view><view><view class="form-label">班级名称</view><input class="setting-input {{!isAdmin ? 'readonly' : ''}}" disabled="{{!isAdmin}}" data-field="className" value="{{draft.className}}" bindinput="onDraftInput" /></view></view>
+    <view class="form-label">学期标签</view><input class="setting-input {{!isAdmin ? 'readonly' : ''}}" disabled="{{!isAdmin}}" data-field="termName" value="{{draft.termName}}" bindinput="onDraftInput" />
+    <view class="two-col"><view><view class="form-label">学期开始</view><picker disabled="{{!isAdmin}}" mode="date" value="{{draft.termStart}}" data-field="termStart" bindchange="chooseDate"><view class="date-input {{!isAdmin ? 'readonly' : ''}}"><text class="date-value">{{draft.termStart}}</text><text class="date-arrow">⌄</text></view></picker></view><view><view class="form-label">学期结束</view><picker disabled="{{!isAdmin}}" mode="date" value="{{draft.termEnd}}" data-field="termEnd" bindchange="chooseDate"><view class="date-input {{!isAdmin ? 'readonly' : ''}}"><text class="date-value">{{draft.termEnd}}</text><text class="date-arrow">⌄</text></view></picker></view></view>
+    <button wx:if="{{isAdmin}}" class="btn-primary save-btn" loading="{{saving}}" disabled="{{saving}}" bindtap="saveConfig">保存班级资料</button>
+  </view>
+
+  <view class="settings-card card">
+    <view class="card-title-row"><view><view class="card-title">名单管理</view></view><view class="member-count">{{members.length}} 人</view></view>
+    <view class="member-list"><view wx:for="{{members}}" wx:key="id" class="member-row"><view class="member-avatar" style="background: {{item.color}}">{{item.initials}}</view><view class="member-info"><text class="member-name">{{item.name}}</text><text class="member-group">{{item.group}}<text wx:if="{{!item.active}}"> · 已停用</text></text></view><switch wx:if="{{isAdmin}}" color="#3157d5" checked="{{item.active}}" disabled="{{savingMemberId !== ''}}" data-id="{{item.id}}" bindchange="toggleMember"></switch><text wx:else class="readonly-label">{{item.active ? '启用' : '停用'}}</text></view></view>
+    <view wx:if="{{isAdmin}}" class="member-actions"><button class="btn-ghost action-btn" bindtap="openMemberForm">＋ 新增同学</button><button class="btn-ghost action-btn" loading="{{batchSaving}}" disabled="{{batchSaving}}" bindtap="openBatchForm">⌁ 批量导入</button></view>
+  </view>
+
+  <view class="settings-card card">
+    <view class="card-title-row"><view><view class="card-title">评分规则</view></view><view class="rule-count">{{rules.length}} 项</view></view>
+    <view class="rule-list"><view wx:for="{{rules}}" wx:key="id" class="rule-row"><view class="rule-icon">{{item.icon}}</view><view class="rule-info"><text class="rule-name">{{item.label}}</text><text class="rule-hint">默认 {{item.defaultDelta > 0 ? '+' : ''}}{{item.defaultDelta}} 分 · 可加可扣</text></view><text wx:if="{{isAdmin}}" class="rule-arrow">›</text></view></view>
+    <button wx:if="{{isAdmin}}" class="btn-ghost full-action" bindtap="openRuleForm">＋ 添加评分规则</button>
+  </view>
+
+  <view class="settings-card card badge-settings-card">
+    <view class="card-title-row">
+      <view><view class="card-title">排名徽章</view><view class="badge-card-caption">图标、文字和对应名次都可修改</view></view>
+      <switch wx:if="{{isAdmin}}" color="#3157d5" checked="{{badgeSettings.enabled}}" disabled="{{savingBadges}}" bindchange="toggleBadges"></switch>
+      <text wx:else class="identity-value">{{badgeSettings.enabled ? '已开启' : '已关闭'}}</text>
+    </view>
+    <view wx:if="{{badgeSettings.rules.length}}" class="badge-rule-list">
+      <view wx:for="{{badgeSettings.rules}}" wx:key="rank" class="badge-rule-row">
+        <view class="badge-rank">第 {{item.rank}} 名</view>
+        <view class="badge-preview"><text>{{item.icon}}</text><text>{{item.label}}</text></view>
+        <view wx:if="{{isAdmin}}" class="badge-actions"><text data-index="{{index}}" bindtap="editBadgeRule">编辑</text><text class="badge-delete" data-index="{{index}}" bindtap="removeBadgeRule">删除</text></view>
+      </view>
+    </view>
+    <view wx:else class="badge-empty">暂无徽章规则，榜单仅显示数字排名</view>
+    <button wx:if="{{isAdmin}}" class="btn-ghost full-action" bindtap="openBadgeForm">＋ 添加徽章规则</button>
+  </view>
+
+  <view class="settings-card card preferences-card">
+    <view class="card-title-row"><view><view class="card-title">权限与展示</view></view></view>
+    <view class="preference-row"><view><text class="preference-title">当前身份</text></view><text class="identity-value">{{isAdmin ? '管理员' : '浏览者'}}</text></view>
+    <view class="preference-row"><view><text class="preference-title">榜单显示首字</text></view><switch wx:if="{{isAdmin}}" color="#3157d5" checked="{{config.privacyMode === 'initial'}}" bindchange="togglePrivacy"></switch><text wx:else class="identity-value">{{config.privacyMode === 'initial' ? '已开启' : '未开启'}}</text></view>
+    <view wx:if="{{!isAdmin}}" class="openid-area"><button class="btn-ghost full-action" loading="{{openidLoading}}" bindtap="showOpenid">查看我的 openid</button><view wx:if="{{openid}}" class="openid-value" bindtap="copyOpenid">{{openid}} · 点击复制</view></view>
+  </view>
+
+  <view class="data-actions card"><view class="card-title">数据工具</view><view class="data-action" bindtap="exportData"><view class="data-action-icon blue">⇩</view><view><text>复制流水 CSV</text><text>可粘贴到 Excel 或表格中</text></view><text class="rule-arrow">›</text></view></view>
+
+  <view wx:if="{{isAdmin && (showMemberForm || showRuleForm || showBadgeForm || showBatchForm)}}" class="inline-mask" catchtap="closeOverlays"></view>
+  <view wx:if="{{isAdmin && showMemberForm}}" class="inline-modal card" catchtap="stopBubble"><view class="modal-title">新增同学</view><input class="setting-input" maxlength="30" placeholder="姓名" data-field="newMemberName" value="{{newMemberName}}" bindinput="onMemberInput" /><input class="setting-input modal-input" maxlength="40" placeholder="小组（如：一组）" data-field="newMemberGroup" value="{{newMemberGroup}}" bindinput="onMemberInput" /><view class="modal-actions"><button class="btn-ghost action-btn" bindtap="closeMemberForm">取消</button><button class="btn-primary action-btn" loading="{{savingMember}}" disabled="{{savingMember}}" bindtap="saveMember">加入名单</button></view></view>
+  <view wx:if="{{isAdmin && showRuleForm}}" class="inline-modal card"><view class="modal-title">添加评分规则</view><input class="setting-input" maxlength="30" placeholder="规则名称，例如：阅读分享" data-field="newRuleLabel" value="{{newRuleLabel}}" bindinput="onRuleInput" /><input class="setting-input modal-input" type="number" placeholder="默认分值" data-field="newRuleDelta" value="{{newRuleDelta}}" bindinput="onRuleInput" /><view class="modal-actions"><button class="btn-ghost action-btn" bindtap="closeRuleForm">取消</button><button class="btn-primary action-btn" loading="{{savingRule}}" disabled="{{savingRule}}" bindtap="saveRule">保存规则</button></view></view>
+  <view wx:if="{{isAdmin && showBadgeForm}}" class="inline-modal card" catchtap="stopBubble">
+    <view class="modal-title">{{badgeEditingIndex >= 0 ? '编辑徽章规则' : '添加徽章规则'}}</view>
+    <view class="form-label">对应名次</view><input class="setting-input" type="number" placeholder="例如：1" data-field="badgeRank" value="{{badgeRank}}" bindinput="onBadgeInput" />
+    <view class="form-label">徽章图标</view><input class="setting-input" maxlength="8" placeholder="可输入任意图标" data-field="badgeIcon" value="{{badgeIcon}}" bindinput="onBadgeInput" />
+    <view class="form-label">徽章文字</view><input class="setting-input" maxlength="24" placeholder="例如：班级标兵" data-field="badgeLabel" value="{{badgeLabel}}" bindinput="onBadgeInput" />
+    <view class="modal-actions"><button class="btn-ghost action-btn" bindtap="closeBadgeForm">取消</button><button class="btn-primary action-btn" loading="{{savingBadges}}" disabled="{{savingBadges}}" bindtap="saveBadgeRule">保存规则</button></view>
+  </view>
+  <view wx:if="{{isAdmin && showBatchForm}}" class="inline-modal card batch-modal"><view class="modal-title">批量导入名单</view><textarea class="batch-field" maxlength="4000" placeholder="每行：姓名 组别，例如：\n刘禹鸣 一组\n李昭 一组\n付嘉玉 二组" value="{{batchText}}" bindinput="onBatchInput"></textarea><view class="modal-actions"><button class="btn-ghost action-btn" bindtap="closeBatchForm">取消</button><button class="btn-primary action-btn" loading="{{batchSaving}}" disabled="{{batchSaving}}" bindtap="importBatch">开始导入</button></view></view>
+</view>

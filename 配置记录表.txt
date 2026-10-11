@@ -1,0 +1,52 @@
+﻿班级积分站 · 自己账号的配置记录表
+用途：留给自己，日后更新代码时核对。不要填写密码、AppSecret 或云密钥。
+
+部署日期：
+维护人及联系方法：
+自己的小程序名称：
+自己的账号主体：
+自己用于工具登录的微信是否有开发权限：[ ]
+
+一、关键身份与连接
+自己的 AppID（project.config.json 的 appid）：
+自己的云环境 ID（app.js 的 CLOUD_ENV_ID）：
+自己的 classConfig 文档 _id（app.js 的 CLASS_ID）：
+whoami 云端环境变量 CLASS_ID：
+当前学期业务 id（classConfig.current_term_id = terms.id）：
+terms.class_id：
+学期开始日期：
+学期结束日期：
+
+二、部署核对
+环境控制台和 cloudfunctions 根目录选择正确环境：[ ]
+9 个集合与权限已保存：[ ]
+whoami 已部署、CLASS_ID 配置已生效：[ ]
+score 已部署：[ ]
+实际微信的 openid 已加入本班 managers，重开显示管理员：[ ]
+名单总人数：             启用人数：              小组数：
+四维规则 category 已核对：[ ]
+
+三、版本与入口
+本地项目绝对路径：
+客户端版本号/上传日期：
+云函数部署日期及版本：
+体验版二维码保存位置：
+提交审核日期：
+正式发布日期/版本：
+正式入口保存位置：
+
+四、持续维护
+原始源码包保存位置：
+可用版本源码备份位置：
+云数据库备份时间与位置：
+集合权限/索引记录位置：
+环境额度和运行状态由谁检查：
+普通浏览者/管理员/跨设备验收结果位置：
+学生数据实际可见范围：
+未通过或待处理事项：
+
+关系必须一致：
+班级文档 _id = app.js CLASS_ID = whoami 环境变量 CLASS_ID = terms.class_id
+classConfig.current_term_id = terms.id
+客户端环境 ID = 两个函数所在环境 ID
+AppID 必须是自己的，不沿用源码提供者的配置。

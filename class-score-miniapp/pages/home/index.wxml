@@ -1,0 +1,99 @@
+<view class="page home-page">
+  <view wx:if="{{loading}}" class="load-state">正在加载班级数据…</view>
+  <view wx:if="{{errorMessage}}" class="load-state load-error">{{errorMessage}}</view>
+
+  <view class="hero">
+    <view class="hero-topline">
+      <view class="brand-lockup-mini">
+        <image class="brand-logo" src="../../assets/logo-mark.png" mode="aspectFit" />
+        <text>班级积分站</text>
+      </view>
+      <view class="term-chip">{{config.termName || '班级积分'}}</view>
+    </view>
+    <view class="school-name">{{config.schoolName}}</view>
+    <view class="class-name">{{config.className || '我的班级'}}</view>
+    <view class="hero-score-row">
+      <view>
+        <view class="hero-score-label">{{periodLabel}}班级总分</view>
+        <view class="hero-score">{{stats.total > 0 ? '+' : ''}}{{stats.total || 0}}</view>
+      </view>
+      <view class="hero-counts">
+        <view><text>{{activeCount}}</text><text>同学</text></view>
+        <view><text>{{groupCount}}</text><text>小组</text></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="period-row">
+    <view class="period-tabs card">
+      <view class="period-tab {{period === 'week' ? 'active' : ''}}" data-period="week" bindtap="selectPeriod">本周</view>
+      <view class="period-tab {{period === 'term' ? 'active' : ''}}" data-period="term" bindtap="selectPeriod">学期</view>
+    </view>
+    <picker wx:if="{{period === 'week'}}" class="week-picker" mode="selector" range="{{weekOptions}}" range-key="label" value="{{weekIndex}}" bindchange="selectWeek">
+      <view class="week-picker-inner"><text class="week-picker-label">{{selectedWeekLabel}}</text><text class="week-picker-arrow">⌄</text></view>
+    </picker>
+  </view>
+
+  <scroll-view class="dimension-scroll" scroll-x="true" show-scrollbar="false">
+    <view class="dimension-tabs">
+      <view wx:for="{{dimensions}}" wx:key="key" class="dimension-tab {{dimension === item.key ? 'active' : ''}}" data-dimension="{{item.key}}" bindtap="selectDimension">{{item.label}}</view>
+    </view>
+  </scroll-view>
+
+  <view class="dimension-grid card">
+    <view wx:for="{{dimensionCards}}" wx:key="key" class="dimension-card">
+      <text class="dimension-name">{{item.label}}</text>
+      <text class="dimension-value {{item.value >= 0 ? 'positive' : 'negative'}}">{{item.value > 0 ? '+' : ''}}{{item.value}}</text>
+    </view>
+  </view>
+
+  <view class="ranking-head">
+    <view>
+      <view class="section-title">积分榜</view>
+      <view class="ranking-caption">{{period === 'term' ? '学期' : '周'}} · {{dimension === 'total' ? '总分' : dimension === 'study' ? '学习' : dimension === 'sports' ? '体育' : dimension === 'labor' ? '劳动' : '纪律'}}</view>
+    </view>
+    <view class="view-switch">
+      <view class="view-option {{viewMode === 'students' ? 'active' : ''}}" data-view="students" bindtap="selectView">个人</view>
+      <view class="view-option {{viewMode === 'groups' ? 'active' : ''}}" data-view="groups" bindtap="selectView">小组</view>
+    </view>
+  </view>
+
+  <view class="podium card" wx:if="{{podium.length && !query}}">
+    <view wx:for="{{podium}}" wx:key="id" class="podium-item podium-{{index + 1}}" data-id="{{item.id}}" bindtap="openStudent">
+      <view class="podium-rank">{{item.rankText}}</view>
+      <view class="avatar podium-avatar" style="background: {{item.color}}">{{item.initials}}</view>
+      <view class="podium-name">{{item.displayName}}</view>
+      <view class="podium-group">{{item.groupText}}</view>
+      <view wx:if="{{item.badgeVisible}}" class="badge"><text>{{item.badgeIcon}}</text>{{item.badgeLabel}}</view>
+      <view class="podium-score {{item.scoreClass}}">{{item.scoreValue > 0 ? '+' : ''}}{{item.scoreValue}}</view>
+    </view>
+  </view>
+
+  <view class="search-box">
+    <text class="search-icon">⌕</text>
+    <input value="{{query}}" placeholder="搜索姓名或小组" placeholder-class="search-placeholder" bindinput="onSearchInput" />
+    <text wx:if="{{query}}" class="clear-search" bindtap="clearSearch">×</text>
+  </view>
+
+  <view class="ranking-list card" wx:if="{{ranking.length}}">
+    <view wx:for="{{ranking}}" wx:key="id" class="ranking-row" data-id="{{item.id}}" bindtap="openStudent">
+      <view class="rank-number {{item.rank <= 3 ? 'top-rank' : ''}}">{{item.rankText}}</view>
+      <view class="avatar small" style="background: {{item.color}}">{{item.initials}}</view>
+      <view class="student-meta">
+        <view class="student-name-line">
+          <text class="student-name">{{item.displayName}}</text>
+          <view wx:if="{{item.badgeVisible}}" class="row-badge"><text>{{item.badgeIcon}}</text>{{item.badgeLabel}}</view>
+        </view>
+        <view class="student-group">{{item.groupText}} · {{item.count || 0}} 笔记录</view>
+      </view>
+      <view class="rank-score {{item.scoreClass}}">{{item.scoreValue > 0 ? '+' : ''}}{{item.scoreValue}}</view>
+      <text wx:if="{{viewMode === 'students'}}" class="row-arrow">›</text>
+    </view>
+  </view>
+  <view wx:else class="empty card">
+    <view class="empty-mark">—</view>
+    <view>暂无匹配数据</view>
+  </view>
+
+  <view wx:if="{{isAdmin}}" class="fab" bindtap="openAdd"><text class="fab-plus">＋</text><text>记一笔</text></view>
+</view>

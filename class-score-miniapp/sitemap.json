@@ -1,0 +1,4 @@
+{
+  "desc": "班级积分站页面索引",
+  "rules": [{ "action": "allow", "page": "*" }]
+}

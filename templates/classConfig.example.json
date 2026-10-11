@@ -1,0 +1,11 @@
+{
+  "schoolName": "示例学校",
+  "className": "七年级1班",
+  "grade": "七年级",
+  "termName": "2026秋季学期",
+  "termStart": "2026-09-01",
+  "termEnd": "2027-01-31",
+  "current_term_id": "term-2026-autumn",
+  "privacyMode": "full",
+  "managers": []
+}

@@ -1,0 +1,53 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>班级积分站 Logo</title>
+  <defs>
+    <linearGradient id="bg" x1="48" y1="26" x2="468" y2="490" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2449BF"/>
+      <stop offset="0.52" stop-color="#3157D5"/>
+      <stop offset="1" stop-color="#7159D9"/>
+    </linearGradient>
+    <linearGradient id="page" x1="128" y1="253" x2="382" y2="383" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#EAF1FF"/>
+    </linearGradient>
+    <linearGradient id="mint" x1="180" y1="164" x2="350" y2="245" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A1F2D0"/>
+      <stop offset="1" stop-color="#55D7B0"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" stroke="white" stroke-opacity="0.18" stroke-width="1"/>
+    </pattern>
+    <filter id="shadow" x="68" y="205" width="376" height="224" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#12266E" flood-opacity="0.24"/>
+    </filter>
+    <filter id="soft" x="300" y="70" width="120" height="120" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="15"/>
+    </filter>
+  </defs>
+
+  <rect x="16" y="16" width="480" height="480" rx="132" fill="url(#bg)"/>
+  <rect x="16" y="16" width="480" height="480" rx="132" fill="url(#grid)" opacity="0.32"/>
+  <circle cx="414" cy="102" r="72" fill="#9A8CFF" fill-opacity="0.24" filter="url(#soft)"/>
+  <circle cx="414" cy="102" r="60" fill="white" fill-opacity="0.08"/>
+  <circle cx="102" cy="425" r="90" fill="#1C3AA8" fill-opacity="0.18"/>
+
+  <!-- rising orbit: growth, momentum and a live score pulse -->
+  <path d="M112 236C152 174 221 139 284 143C339 147 383 180 401 224" stroke="url(#mint)" stroke-width="14" stroke-linecap="round"/>
+  <path d="M388 191L408 225L369 221" fill="url(#mint)"/>
+  <circle cx="152" cy="184" r="9" fill="#B9F7DA"/>
+  <circle cx="188" cy="157" r="6" fill="#B9F7DA" fill-opacity="0.85"/>
+
+  <!-- small north star -->
+  <path d="M354 92L362 112L383 120L362 128L354 149L346 128L325 120L346 112L354 92Z" fill="#FFD36B"/>
+  <circle cx="354" cy="120" r="6" fill="#FFF4C7"/>
+
+  <!-- open book / class learning -->
+  <g filter="url(#shadow)">
+    <path d="M82 269C132 245 195 246 256 279V394C198 364 139 361 82 383V269Z" fill="url(#page)"/>
+    <path d="M430 269C380 245 317 246 256 279V394C314 364 373 361 430 383V269Z" fill="url(#page)"/>
+    <path d="M256 279V394" stroke="#B8C9F2" stroke-width="8" stroke-linecap="round"/>
+    <path d="M111 286C151 273 194 276 229 292M111 313C151 301 194 304 229 319M111 341C151 329 194 332 229 347" stroke="#B9C9EC" stroke-width="8" stroke-linecap="round"/>
+    <path d="M401 286C361 273 318 276 283 292M401 313C361 301 318 304 283 319M401 341C361 329 318 332 283 347" stroke="#B9C9EC" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <path d="M95 384C145 366 201 370 256 397C311 370 367 366 417 384" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="7" stroke-linecap="round"/>
+</svg>

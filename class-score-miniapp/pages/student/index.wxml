@@ -1,0 +1,44 @@
+<view class="page student-page">
+  <view wx:if="{{loading}}" class="load-state">正在加载个人积分…</view>
+  <view wx:if="{{errorMessage}}" class="load-state load-error">{{errorMessage}}</view>
+
+  <block wx:if="{{student.name}}">
+    <view class="student-hero">
+      <view class="student-avatar" style="background: {{student.color || '#5B8DEF'}}">{{initials}}</view>
+      <view class="student-name">{{displayName}}</view>
+      <view class="student-group">{{student.groupName || student.group || '未分组'}}</view>
+    </view>
+
+    <view class="period-cards">
+      <view class="period-card card">
+        <view class="period-name">本周</view>
+        <view class="period-score {{week.scoreClass}}">{{week.scoreValue > 0 ? '+' : ''}}{{week.scoreValue}}</view>
+        <view class="period-rank">第 {{week.rankText}} 名</view>
+        <view wx:if="{{week.badgeVisible}}" class="student-badge"><text>{{week.badgeIcon}}</text>{{week.badgeLabel}}</view>
+      </view>
+      <view class="period-card card term-card">
+        <view class="period-name">本学期</view>
+        <view class="period-score {{term.scoreClass}}">{{term.scoreValue > 0 ? '+' : ''}}{{term.scoreValue}}</view>
+        <view class="period-rank">第 {{term.rankText}} 名</view>
+        <view wx:if="{{term.badgeVisible}}" class="student-badge"><text>{{term.badgeIcon}}</text>{{term.badgeLabel}}</view>
+      </view>
+    </view>
+
+    <view class="section-heading">
+      <view class="section-title">四维积分</view>
+      <view class="section-note">周 / 学期</view>
+    </view>
+    <view class="dimension-list card">
+      <view wx:for="{{dimensions}}" wx:key="key" class="dimension-row">
+        <view class="dimension-symbol symbol-{{item.key}}">{{item.initial}}</view>
+        <view class="dimension-name">{{item.label}}</view>
+        <view class="dimension-values">
+          <view><text class="dimension-label">本周</text><text class="dimension-score {{item.weekValue >= 0 ? 'positive' : 'negative'}}">{{item.weekValue > 0 ? '+' : ''}}{{item.weekValue}}</text></view>
+          <view><text class="dimension-label">学期</text><text class="dimension-score {{item.termValue >= 0 ? 'positive' : 'negative'}}">{{item.termValue > 0 ? '+' : ''}}{{item.termValue}}</text></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="student-note">积分与名次均根据原始记录实时计算</view>
+  </block>
+</view>

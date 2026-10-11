@@ -1,0 +1,76 @@
+<view class="page stats-page">
+  <view wx:if="{{loading}}" class="load-state">正在加载统计数据…</view>
+  <view wx:if="{{errorMessage}}" class="load-state load-error">{{errorMessage}}</view>
+
+  <view class="stats-hero card">
+    <view class="stats-title-row">
+      <view>
+        <view class="section-title">班级统计</view>
+        <view class="stats-period">{{periodLabel}}</view>
+      </view>
+      <image class="stats-logo" src="../../assets/logo-mark.png" mode="aspectFit" />
+    </view>
+    <view class="stats-main-number">{{stats.total > 0 ? '+' : ''}}{{stats.total || 0}}<text>分</text></view>
+    <view class="stats-mini-grid">
+      <view><text class="mini-value positive">{{stats.positive > 0 ? '+' : ''}}{{stats.positive || 0}}</text><text class="mini-label">加分</text></view>
+      <view><text class="mini-value negative">{{stats.negative || 0}}</text><text class="mini-label">扣分</text></view>
+      <view><text class="mini-value">{{stats.eventCount || 0}}</text><text class="mini-label">记录</text></view>
+    </view>
+  </view>
+
+  <view class="period-control">
+    <view class="period-tabs card">
+      <view class="period-tab {{period === 'week' ? 'active' : ''}}" data-period="week" bindtap="selectPeriod">本周</view>
+      <view class="period-tab {{period === 'term' ? 'active' : ''}}" data-period="term" bindtap="selectPeriod">学期</view>
+    </view>
+    <picker wx:if="{{period === 'week'}}" class="week-picker" mode="selector" range="{{weekOptions}}" range-key="label" value="{{weekIndex}}" bindchange="selectWeek">
+      <view class="week-value"><text class="week-label">{{selectedWeekLabel}}</text><text class="week-arrow">⌄</text></view>
+    </picker>
+  </view>
+
+  <view class="section-heading"><view><view class="section-title">四维表现</view><view class="section-subtitle">全部来自原始积分记录</view></view></view>
+  <view class="category-grid">
+    <view wx:for="{{categories}}" wx:key="key" class="category-card card category-{{item.key}}">
+      <view class="category-top"><text class="category-name">{{item.label}}</text><text class="category-count">{{item.count || 0}} 笔</text></view>
+      <view class="category-score {{item.value >= 0 ? 'positive' : 'negative'}}">{{item.value > 0 ? '+' : ''}}{{item.value}}</view>
+      <view class="category-detail"><text class="positive">+{{item.positiveValue}}</text><text class="negative">{{item.negativeValue}}</text></view>
+    </view>
+  </view>
+
+  <view class="ranking-head">
+    <view>
+      <view class="section-title">排名明细</view>
+      <view class="section-subtitle">切换维度查看完整排名</view>
+    </view>
+    <view class="view-switch">
+      <view class="view-option {{viewMode === 'students' ? 'active' : ''}}" data-view="students" bindtap="selectView">个人</view>
+      <view class="view-option {{viewMode === 'groups' ? 'active' : ''}}" data-view="groups" bindtap="selectView">小组</view>
+    </view>
+  </view>
+
+  <scroll-view class="dimension-scroll" scroll-x="true" show-scrollbar="false">
+    <view class="dimension-tabs">
+      <view wx:for="{{dimensions}}" wx:key="key" class="dimension-tab {{dimension === item.key ? 'active' : ''}}" data-dimension="{{item.key}}" bindtap="selectDimension">{{item.label}}</view>
+    </view>
+  </scroll-view>
+
+  <view class="stats-table card" wx:if="{{ranking.length}}">
+    <view class="table-head"><text>排名</text><text>{{viewMode === 'groups' ? '小组' : '同学'}}</text><text>加分</text><text>扣分</text><text>积分</text></view>
+    <view wx:for="{{ranking}}" wx:key="id" class="table-row" data-id="{{item.id}}" bindtap="openStudent">
+      <view class="table-rank">{{item.rankText}}</view>
+      <view class="table-student">
+        <view class="table-avatar" style="background: {{item.color}}">{{item.initials}}</view>
+        <view class="table-info">
+          <view class="table-name-line"><text class="table-name">{{item.displayName}}</text><text wx:if="{{item.badgeVisible}}" class="table-badge">{{item.badgeIcon}} {{item.badgeLabel}}</text></view>
+          <text class="table-group">{{item.groupText}}</text>
+        </view>
+      </view>
+      <text class="table-positive">{{item.positiveValue > 0 ? '+' : ''}}{{item.positiveValue}}</text>
+      <text class="table-negative">{{item.negativeValue}}</text>
+      <text class="table-score {{item.scoreClass}}">{{item.scoreValue > 0 ? '+' : ''}}{{item.scoreValue}}</text>
+    </view>
+  </view>
+  <view wx:else class="empty card">暂无排名数据</view>
+
+  <button class="export-btn" bindtap="exportCsv">复制积分流水 CSV</button>
+</view>
